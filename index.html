@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EatKrishna — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ───── LOGIN PAGE ───── -->
+  <div id="login-page">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-brand">
+          <div class="brand-emblem">✦</div>
+          <h1 class="login-title"> EatKrishna</h1>
+          <p class="login-subtitle">Admin Console Gateway</p>
+        </div>
+
+        <div id="login-error" class="login-message error hidden"></div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="admin-email">Email Address</label>
+            <input type="email" id="admin-email" placeholder="admin@mithaimahal.com" required>
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Password</label>
+            <input type="password" id="admin-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-gold login-btn">
+            <span class="btn-text">Authenticate</span>
+            <span class="btn-loader hidden">Verifying…</span>
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <span>Authorized Personnel Only</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="admin-panel" style="display:none;">
+
+    <!-- ───── SIDEBAR ───── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.jpg" class="brand-logo" alt="EatKrishna Logo">
+        <div class="brand-text">
+          <span class="brand-name">EatKrishna</span>
+          <span class="brand-sub">Admin Console</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard" onclick="navigate('dashboard', this)">
+          <span class="nav-icon">⬡</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-page="products" onclick="navigate('products', this)">
+          <span class="nav-icon">◈</span>
+          <span>Products</span>
+        </a>
+        <a href="#" class="nav-item" data-page="ingredients" onclick="navigate('ingredients', this)">
+          <span class="nav-icon">◇</span>
+          <span>Ingredients</span>
+        </a>
+        <a href="#" class="nav-item" data-page="varieties" onclick="navigate('varieties', this)">
+          <span class="nav-icon">◆</span>
+          <span>Varieties</span>
+        </a>
+        <a href="#" class="nav-item" data-page="sizes" onclick="navigate('sizes', this)">
+          <span class="nav-icon">⬚</span>
+          <span>Sizes</span>
+        </a>
+        <a href="#" class="nav-item" data-page="orders" onclick="navigate('orders', this)">
+          <span class="nav-icon">⬢</span>
+          <span>Orders</span>
+        </a>
+        <a href="#" class="nav-item" data-page="customization-orders" onclick="navigate('customization-orders', this)">
+          <span class="nav-icon">✦</span>
+          <span>Customization Orders</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-dot"></div>
+        <span>System Online</span>
+      </div>
+    </aside>
+
+    <!-- ───── MAIN CONTENT ───── -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-right">
+          <button class="btn-gold" onclick="logout()">Logout</button>
+        </div>
+      </header>
+
+      <!-- ───── PAGE: DASHBOARD ───── -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1 class="page-title">Welcome Back <em>— Admin</em></h1>
+          <p class="page-subtitle">Manage your premium sweets store from one place</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card" onclick="navigate('products', document.querySelector('[data-page=products]'))">
+            <div class="stat-icon">◈</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-products">—</div>
+              <div class="stat-label">Total Products</div>
+            </div>
+          </div>
+          <div class="stat-card" onclick="navigate('ingredients', document.querySelector('[data-page=ingredients]'))">
+            <div class="stat-icon">◇</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-ingredients">—</div>
+              <div class="stat-label">Total Ingredients</div>
+            </div>
+          </div>
+          <div class="stat-card" onclick="navigate('varieties', document.querySelector('[data-page=varieties]'))">
+            <div class="stat-icon">◆</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-varieties">—</div>
+              <div class="stat-label">Total Varieties</div>
+            </div>
+          </div>
+          <div class="stat-card" onclick="navigate('sizes', document.querySelector('[data-page=sizes]'))">
+            <div class="stat-icon">⬚</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-sizes">—</div>
+              <div class="stat-label">Total Sizes</div>
+            </div>
+          </div>
+          <div class="stat-card" style="cursor: default;">
+            <div class="stat-icon">✦</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-categories">4</div>
+              <div class="stat-label">Categories</div>
+            </div>
+          </div>
+          <div class="stat-card" onclick="navigate('orders', document.querySelector('[data-page=orders]'))">
+            <div class="stat-icon">⬢</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-orders">—</div>
+              <div class="stat-label">Orders</div>
+            </div>
+          </div>
+          <div class="stat-card" onclick="navigate('customization-orders', document.querySelector('[data-page=customization-orders]'))">
+            <div class="stat-icon">✦</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-customization-orders">—</div>
+              <div class="stat-label">Customization Orders</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <h2 class="section-title">Quick Actions</h2>
+          <div class="action-row">
+            <button class="action-btn" onclick="navigate('products', document.querySelector('[data-page=products]'))">
+              + Add New Product
+            </button>
+            <button class="action-btn action-btn--secondary"
+              onclick="navigate('ingredients', document.querySelector('[data-page=ingredients]'))">
+              + Add Ingredient
+            </button>
+            <button class="action-btn action-btn--secondary"
+              onclick="navigate('varieties', document.querySelector('[data-page=varieties]'))">
+              + Add Variety
+            </button>
+            <button class="action-btn action-btn--secondary"
+              onclick="navigate('sizes', document.querySelector('[data-page=sizes]'))">
+              + Add Size
+            </button>
+            <button class="action-btn action-btn--secondary"
+              onclick="navigate('orders', document.querySelector('[data-page=orders]'))">
+              + Orders
+            </button>
+            <button class="action-btn action-btn--secondary"
+              onclick="navigate('customization-orders', document.querySelector('[data-page=customization-orders]'))">
+              + Customization Order
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Products Preview on Dashboard -->
+        <div class="recent-section">
+          <h2 class="section-title">Recently Added Products</h2>
+          <div class="products-grid" id="dashboard-preview"></div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: PRODUCTS ───── -->
+      <section class="page" id="page-products">
+        <div class="page-header">
+          <h1 class="page-title">Product <em>Management</em></h1>
+          <p class="page-subtitle">Add and manage your premium sweets catalogue</p>
+        </div>
+
+        <div class="form-card">
+          <h2 class="form-card-title">Add New Product</h2>
+          <div id="product-toast" class="toast hidden"></div>
+
+          <form id="product-form" onsubmit="submitProduct(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Title <span class="req">*</span></label>
+                <input type="text" id="p-title" placeholder="e.g. Kesar Motichoor Ladoo" required />
+              </div>
+              <div class="form-group">
+                <label>Category <span class="req">*</span></label>
+                <select id="p-category" required>
+                  <option value="">— Select Category —</option>
+                  <option value="Sweets">Sweets</option>
+                  <option value="Ladoos">Ladoos</option>
+                  <option value="Dry Fruits">Dry Fruits</option>
+                  <option value="Gift Box">Gift Box</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price (₹) <span class="req">*</span></label>
+                <input type="number" id="p-price" placeholder="e.g. 349" min="0" required />
+              </div>
+
+              <div class="form-group form-group--full sizes-section">
+                <h4 class="section-subtitle-small">Available Sizes</h4>
+                <div id="sizes-container">
+                  <div class="size-row">
+                    <input type="text" class="size-label" placeholder="e.g. 250g / 500g / 1kg">
+                    <input type="number" class="size-price" placeholder="Price">
+                    <button type="button" class="btn-remove-size" title="Remove size" onclick="this.parentElement.remove()">×</button>
+                  </div>
+                </div>
+                <button type="button" id="add-size-btn" class="btn-ghost btn-sm">
+                  + Add Another Size
+                </button>
+              </div>
+              <div class="form-group">
+                <label>Old Price (₹)</label>
+                <input type="number" id="p-old-price" placeholder="e.g. 499" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Discount (%)</label>
+                <input type="number" id="p-discount" placeholder="e.g. 30" min="0" max="100" />
+              </div>
+              <div class="form-group">
+                <label>Rating</label>
+                <input type="number" id="p-rating" placeholder="e.g. 4.8" min="0" max="5" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label>Reviews</label>
+                <input type="number" id="p-reviews" placeholder="e.g. 120" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Button Text</label>
+                <input type="text" id="p-button-text" placeholder="e.g. Add to Cart" />
+              </div>
+              <div class="form-group form-group--full">
+                <label>Product Image <span class="req">*</span></label>
+                <div class="file-input-wrapper">
+                  <label for="p-image-file" class="btn-gold file-input-label">
+                    Choose File
+                  </label>
+                  <input type="file" id="p-image-file" accept="image/*" class="hidden-file-input" required 
+                    onchange="document.getElementById('p-image-filename').textContent = this.files[0] ? this.files[0].name : 'No file chosen'" />
+                  <span id="p-image-filename" class="file-name-text">No file chosen</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Badge / Tag</label>
+                <div class="tag-selector">
+                  <label class="tag-option">
+                    <input type="radio" name="p-badge" value="Bestseller" /> <span>Bestseller</span>
+                  </label>
+                  <label class="tag-option">
+                    <input type="radio" name="p-badge" value="Popular" /> <span>Popular</span>
+                  </label>
+                  <label class="tag-option">
+                    <input type="radio" name="p-badge" value="Premium" /> <span>Premium</span>
+                  </label>
+                  <label class="tag-option">
+                    <input type="radio" name="p-badge" value="Gift" /> <span>Gift</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>is_active</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="p-status-true" class="p-status-checkbox" value="true" />
+                    <span>True</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="p-status-false" class="p-status-checkbox" value="false" />
+                    <span>False</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="p-status-null" class="p-status-checkbox" value="null" />
+                    <span>Null</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-gold" id="product-submit-btn">
+                <span class="btn-text">Add Product</span>
+                <span class="btn-loader hidden">Saving…</span>
+              </button>
+              <button type="button" class="btn-ghost" onclick="resetProductForm()">Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Products Preview Table -->
+        <div class="preview-section">
+          <h2 class="section-title">All Products</h2>
+          <div class="products-grid" id="products-preview"></div>
+          <div class="empty-state hidden" id="products-empty">No products added yet.</div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: INGREDIENTS ───── -->
+      <section class="page" id="page-ingredients">
+        <div class="page-header">
+          <h1 class="page-title">Ingredients <em>Management</em></h1>
+          <p class="page-subtitle">Manage ingredients for your customizable laddu builder</p>
+        </div>
+
+        <div class="form-card">
+          <h2 class="form-card-title">Add New Ingredient</h2>
+          <div id="ingredient-toast" class="toast hidden"></div>
+
+          <form id="ingredient-form" onsubmit="submitIngredient(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Ingredient Name <span class="req">*</span></label>
+                <input type="text" id="i-name" placeholder="e.g. Roasted Cashews" required />
+              </div>
+              <div class="form-group">
+                <label>Category <span class="req">*</span></label>
+                <select id="i-category" required>
+                  <option value="">— Select Category —</option>
+                  <option value="Bestseller">Bestseller</option>
+                  <option value="Popular">Popular</option>
+                  <option value="Premium">Premium</option>
+                  <option value="Gift">Gift</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price (₹) <span class="req">*</span></label>
+                <input type="number" id="i-price" placeholder="e.g. 29" min="0" required />
+              </div>
+              <div class="form-group">
+                <label>Variety Type</label>
+                <input type="text" id="i-variety-type" placeholder="e.g. Nuts" />
+              </div>
+              <div class="form-group">
+                <label>is_active</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="i-status-true" class="i-status-checkbox" value="true" />
+                    <span>True</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="i-status-false" class="i-status-checkbox" value="false" />
+                    <span>False</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="i-status-null" class="i-status-checkbox" value="null" />
+                    <span>Null</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group form-group--full">
+                <label>Description</label>
+                <textarea id="i-description" placeholder="Describe the ingredient..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-gold" id="ingredient-submit-btn">
+                <span class="btn-text">Add Ingredient</span>
+                <span class="btn-loader hidden">Saving…</span>
+              </button>
+              <button type="button" class="btn-ghost" onclick="addSampleIngredients()">Add Sample Ingredients</button>
+              <button type="button" class="btn-ghost" onclick="resetIngredientForm()">Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Ingredients Table Preview -->
+        <div class="preview-section">
+          <h2 class="section-title">All Ingredients</h2>
+          <div class="table-wrapper">
+            <table class="ingredients-table" id="ingredients-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Variety Type</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Added</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ingredients-tbody">
+                <tr id="ingredients-empty-row">
+                  <td colspan="7" class="empty-cell">No ingredients added yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: VARIETIES ───── -->
+      <section class="page" id="page-varieties">
+        <div class="page-header">
+          <h1 class="page-title">Varieties <em>Management</em></h1>
+          <p class="page-subtitle">Manage varieties for your products</p>
+        </div>
+
+        <div class="form-card">
+          <h2 class="form-card-title">Add New Variety</h2>
+          <div id="variety-toast" class="toast hidden"></div>
+
+          <form id="variety-form" onsubmit="submitVariety(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Variety Name <span class="req">*</span></label>
+                <input type="text" id="v-name" placeholder="e.g. Small Pack" required />
+              </div>
+              <div class="form-group">
+                <label>Price (₹) <span class="req">*</span></label>
+                <input type="number" id="v-price" placeholder="e.g. 100" min="0" required />
+              </div>
+              <div class="form-group">
+                <label>is_active</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="v-status-true" class="v-status-checkbox" value="true" checked />
+                    <span>True</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="v-status-false" class="v-status-checkbox" value="false" />
+                    <span>False</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group form-group--full">
+                <label>Description</label>
+                <textarea id="v-description" placeholder="Describe the variety..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-gold" id="variety-submit-btn">
+                <span class="btn-text">Add Variety</span>
+                <span class="btn-loader hidden">Saving…</span>
+              </button>
+              <button type="button" class="btn-ghost" onclick="resetVarietyForm()">Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Varieties Preview Table -->
+        <div class="preview-section">
+          <h2 class="section-title">All Varieties</h2>
+          <div class="table-wrapper">
+            <table class="ingredients-table" id="varieties-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Added</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="varieties-tbody">
+                <tr id="varieties-empty-row">
+                  <td colspan="5" class="empty-cell">No varieties added yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: SIZES ───── -->
+      <section class="page" id="page-sizes">
+        <div class="page-header">
+          <h1 class="page-title">Sizes <em>Management</em></h1>
+          <p class="page-subtitle">Manage sizes for your products</p>
+        </div>
+
+        <div class="form-card">
+          <h2 class="form-card-title">Add New Size</h2>
+          <div id="size-toast" class="toast hidden"></div>
+
+          <form id="size-form" onsubmit="submitSize(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Select Variety <span class="req">*</span></label>
+                <select id="s-variety" required>
+                  <option value="">— Select Variety —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Size Name <span class="req">*</span></label>
+                <input type="text" id="s-size" placeholder="e.g. 1KG" required />
+              </div>
+              <div class="form-group">
+                <label>Weight Grams <span class="req">*</span></label>
+                <input type="number" id="s-weight-grams" placeholder="e.g. 1000" min="1" required />
+              </div>
+              <div class="form-group">
+                <label>Price (₹) <span class="req">*</span></label>
+                <input type="number" id="s-price" placeholder="e.g. 850" min="0" required />
+              </div>
+              <div class="form-group">
+                <label>is_active</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="s-status-true" class="s-status-checkbox" value="true" checked />
+                    <span>True</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" id="s-status-false" class="s-status-checkbox" value="false" />
+                    <span>False</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-gold" id="size-submit-btn">
+                <span class="btn-text">Add Size</span>
+                <span class="btn-loader hidden">Saving…</span>
+              </button>
+              <button type="button" class="btn-ghost" onclick="resetSizeForm()">Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sizes Preview Table -->
+        <div class="preview-section">
+          <h2 class="section-title">All Sizes</h2>
+          <div class="table-wrapper">
+            <table class="ingredients-table" id="sizes-table">
+              <thead>
+                <tr>
+                  <th>Variety</th>
+                  <th>Size</th>
+                  <th>Weight</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Added</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sizes-tbody">
+                <tr id="sizes-empty-row">
+                  <td colspan="7" class="empty-cell">No sizes added yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: ORDERS ───── -->
+      <section class="page" id="page-orders">
+        <div class="page-header">
+          <h1 class="page-title">Order <em>Management</em></h1>
+          <p class="page-subtitle">View and manage customer orders</p>
+          <div id="order-toast" class="toast hidden"></div>
+        </div>
+
+        <div class="orders-grid" id="orders-container">
+          <div id="orders-empty" class="empty-state">No orders found.</div>
+        </div>
+      </section>
+
+      <!-- ───── PAGE: CUSTOMIZATION ORDERS ───── -->
+      <section class="page" id="page-customization-orders">
+        <div class="page-header">
+          <h1 class="page-title">Customization <em>Orders</em></h1>
+          <p class="page-subtitle">Manage custom order requests</p>
+          <div id="customization-toast" class="toast hidden"></div>
+        </div>
+
+        <div class="orders-grid" id="customization-orders-container">
+          <div id="customization-orders-empty" class="empty-state">No customization orders found.</div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
